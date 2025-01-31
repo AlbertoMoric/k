@@ -32,10 +32,12 @@ ven_tot = df.loc[:, '2015':'2024'].sum()
 ven_tot = {'CODIGO ARTICULO': 0, 'CLI': 0, **ven_tot.to_dict()}
 ven_tot = pd.DataFrame([ven_tot])
 
+# Mostrar los resultados de la suma de ventas de 2015 a 2024
+st.write("Suma total de ventas de 2015 a 2024:")
+st.dataframe(ven_tot)
+
 # Mostrar datos procesados
 st.write("Datos procesados:")
 st.dataframe(df)
 
-# Mostrar los resultados de la suma de ventas de 2015 a 2024
-st.write("Suma total de ventas de 2015 a 2024:")
-st.dataframe(ven_tot)
+
