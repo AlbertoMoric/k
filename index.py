@@ -176,12 +176,12 @@ elif selection == 'Predicciones 2025':
     
     predicciones = model.predict(X_test_scaled)
 
-# Añadir las predicciones al DataFrame original
-df.loc[X_test.index, 'Predicción'] = predicciones  # Agregar la predicción a las filas del df original
-
-# Mostrar el DataFrame con las predicciones añadidas
-st.subheader("Datos con las predicciones añadidas")
-st.dataframe(df)  # Mostrar el DataFrame original con la nueva columna de predicción
-
-# Mostrar un mensaje de éxito después de entrenar el modelo
-st.success('Modelo entrenado y predicciones generadas')
+    # Añadir las predicciones al DataFrame original
+    df.loc[X_test.index, 'Predicción'] = predicciones  # Agregar la predicción a las filas del df original
+    
+    # Mostrar el DataFrame con las predicciones añadidas
+    st.subheader("Datos con las predicciones añadidas")
+    st.dataframe(df)  # Mostrar el DataFrame original con la nueva columna de predicción
+    
+    # Mostrar un mensaje de éxito después de entrenar el modelo
+    st.success('Modelo entrenado y predicciones generadas')
