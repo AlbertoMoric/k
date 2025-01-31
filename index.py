@@ -31,6 +31,9 @@ ven_tot = df.loc[:, '2015':'2024'].sum()
 ven_tot = {'CODIGO ARTICULO': 0, 'CLI': 0, **ven_tot.to_dict()}
 ven_tot = pd.DataFrame([ven_tot])
 
+# Redondear los valores de ven_tot a 2 decimales
+ven_tot = ven_tot.round(2)
+
 # Mostrar solo las columnas de 2015 a 2024 en ven_tot
-st.write("Suma total de ventas de 2015 a 2024 en unidades:")
+st.write("Suma total de ventas de 2015 a 2024:")
 st.dataframe(ven_tot.loc[:, '2015':'2024'])
