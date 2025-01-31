@@ -12,7 +12,7 @@ A través de análisis y proyecciones, se anticipa el desempeño y las tendencia
 """)
 
 # Crear índice
-menu = ['Introducción', 'Datos Procesados', 'Gráfico de Ventas', 'Resumen']
+menu = ['Primeras Conlusiones', 'Control de Clientes', 'Control de Articulos', 'Resumen']
 selection = st.sidebar.radio("Navegar a:", menu)
 
 # Página de Introducción
