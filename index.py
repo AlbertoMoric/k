@@ -124,6 +124,19 @@ elif selection == 'Control de Articulos':
     
     st.write("Artículos con más compras en el periodo 2021-2024:")
     st.dataframe(df_art_asc)
+
+    # Análisis de clientes que compraron cada artículo
+    clientes_por_articulo = {}
+    for articulo in df['CODIGO ARTICULO'].unique():
+        clientes_articulo = df[df['CODIGO ARTICULO'] == articulo].iloc[:, 1:]  # Tomamos las columnas de los años (2015-2024)
+        clientes_compraron = df.loc[df['CODIGO ARTICULO'] == articulo].iloc[:, 1:].gt(0).any(axis=1).index[df.loc[df['CODIGO ARTICULO'] == articulo].iloc[:, 1:].gt(0).any(axis=1)].tolist()
+        clientes_por_articulo[articulo] = clientes_compraron
+
+    df_clientes_articulo = pd.DataFrame(list(clientes_por_articulo.items()), columns=['Articulo', 'Clientes_Que_Compraron'])
+
+    # Mostrar los clientes que compraron cada artículo
+    st.write("Clientes que compraron cada artículo:")
+    st.dataframe(df_clientes_articulo)
     
 # Página de Resumen
 elif selection == 'Predicciones 2025':
