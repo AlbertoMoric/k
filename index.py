@@ -95,7 +95,7 @@ elif selection == 'Control de Clientes':
     st.dataframe(df_articulos_cliente)
 
 # Página de Gráfico de Ventas
-elif selection == 'Gráfico de Ventas':
+elif selection == 'Control de Articulos':
     st.header("Gráfico de Ventas Totales de 2015 a 2024")
 
     # Crear el DataFrame ven_tot con la suma de ventas de 2015 a 2024
