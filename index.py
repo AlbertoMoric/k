@@ -187,4 +187,4 @@ elif selection == 'Predicciones 2025':
     
     # Mostrar predicción en Streamlit
     st.write("Predicción de ventas para el año 2025:")
-    st.dataframe(df[['CODIGO ARTICULO', 'prediccion_2025']])
+    st.dataframe(df[['CODIGO ARTICULO','CLI', 'prediccion_2025']])
