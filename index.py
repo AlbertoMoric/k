@@ -81,7 +81,19 @@ elif selection == 'Control de Clientes':
     
     st.write("Clientes con más compras en el periodo 2021-2024:")
     st.dataframe(df_cli_asc)
-    
+
+    articulos_por_cliente = {}
+    for cli in df['CLI'].unique():
+    articulos_cliente = df[df['CLI'] == cli].iloc[:, 1:]  # Tomamos todas las columnas de años (2015-2024)
+    articulos_comprados = df.loc[df['CLI'] == cli].iloc[:, 1:].gt(0).any(axis=1).index[df.loc[df['CLI'] == cli].iloc[:, 1:].gt(0).any(axis=1)].tolist()
+    articulos_por_cliente[cli] = articulos_comprados
+
+    df_articulos_cliente = pd.DataFrame(list(articulos_por_cliente.items()), columns=['CLI', 'Articulos_Comprados'])
+
+    # Mostrar los artículos comprados por cada cliente
+    st.write("Artículos comprados por cada cliente:")
+    st.dataframe(df_articulos_cliente)
+
 # Página de Gráfico de Ventas
 elif selection == 'Gráfico de Ventas':
     st.header("Gráfico de Ventas Totales de 2015 a 2024")
