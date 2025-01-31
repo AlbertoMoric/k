@@ -84,9 +84,9 @@ elif selection == 'Control de Clientes':
 
     articulos_por_cliente = {}
     for cli in df['CLI'].unique():
-    articulos_cliente = df[df['CLI'] == cli].iloc[:, 1:]  # Tomamos todas las columnas de años (2015-2024)
-    articulos_comprados = df.loc[df['CLI'] == cli].iloc[:, 1:].gt(0).any(axis=1).index[df.loc[df['CLI'] == cli].iloc[:, 1:].gt(0).any(axis=1)].tolist()
-    articulos_por_cliente[cli] = articulos_comprados
+        articulos_cliente = df[df['CLI'] == cli].iloc[:, 1:]  # Tomamos todas las columnas de años (2015-2024)
+        articulos_comprados = df.loc[df['CLI'] == cli].iloc[:, 1:].gt(0).any(axis=1).index[df.loc[df['CLI'] == cli].iloc[:, 1:].gt(0).any(axis=1)].tolist()
+        articulos_por_cliente[cli] = articulos_comprados
 
     df_articulos_cliente = pd.DataFrame(list(articulos_por_cliente.items()), columns=['CLI', 'Articulos_Comprados'])
 
