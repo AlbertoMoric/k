@@ -32,5 +32,5 @@ ven_tot = {'CODIGO ARTICULO': 0, 'CLI': 0, **ven_tot.to_dict()}
 ven_tot = pd.DataFrame([ven_tot])
 
 # Mostrar solo las columnas de 2015 a 2024 en ven_tot
-st.write("Suma total de ventas de 2015 a 2024:")
+st.write("Suma total de ventas de 2015 a 2024 en unidades:")
 st.dataframe(ven_tot.loc[:, '2015':'2024'])
