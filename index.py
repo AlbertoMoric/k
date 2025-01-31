@@ -148,6 +148,8 @@ elif selection == 'Control de Articulos':
     
 # Página de Resumen
 elif selection == 'Predicciones 2025':
+    df_art = df.groupby('CODIGO ARTICULO').sum()
+    df_art = df_art.drop(columns=['2020'])  # Eliminar columna de 2020
     X = df_art[['2015', '2016', '2017', '2018', '2019', '2021', '2022', '2023', '2024']].values
     X_train, X_test = train_test_split(X, test_size=0.2, random_state=42)
     scaler = StandardScaler()
