@@ -174,18 +174,14 @@ elif selection == 'Predicciones 2025':
                             validation_data=(X_test_scaled, X_test[:, -1]), 
                             callbacks=[early_stopping])  # Añadir el callback de EarlyStopping
     
-    # Mostrar un mensaje de éxito después de entrenar el modelo
-    st.success('Modelo entrenado exitosamente')
-    
-    # Evaluación del modelo
-    loss = model.evaluate(X_test_scaled, X_test[:, -1])
-    st.write(f'Pérdida en el conjunto de prueba: {loss}')
-    
-    # Predicción de ventas para 2025
-    df['prediccion_2025'] = model.predict(scaler.transform(df[['2015', '2016', '2017', '2018', '2019', '2021', '2022', '2023', '2024']].values))
-    
-    st.subheader("Datos con las predicciones añadidas")
-    st.dataframe(df)
+    predicciones = model.predict(X_test_scaled)
 
-    # Mostrar un mensaje de éxito después de entrenar el modelo
-    st.success('Modelo entrenado y predicciones generadas')
+# Añadir las predicciones al DataFrame original
+df.loc[X_test.index, 'Predicción'] = predicciones  # Agregar la predicción a las filas del df original
+
+# Mostrar el DataFrame con las predicciones añadidas
+st.subheader("Datos con las predicciones añadidas")
+st.dataframe(df)  # Mostrar el DataFrame original con la nueva columna de predicción
+
+# Mostrar un mensaje de éxito después de entrenar el modelo
+st.success('Modelo entrenado y predicciones generadas')
