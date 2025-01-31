@@ -49,8 +49,8 @@ if selection == 'Primeras Conlusiones':
     st.pyplot(plt)
 
 # Página de Datos Procesados
-elif selection == 'Datos Procesados':
-    st.header("Datos Procesados")
+elif selection == 'Control de Clientes':
+    st.header("Control de Clientes")
 
     # Mostrar datos procesados
     st.write("Datos procesados:")
