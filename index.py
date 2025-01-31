@@ -32,6 +32,22 @@ if selection == 'Primeras Conlusiones':
     st.write("""
     En el apartado "Primeras Conclusiones", he analizado las ventas totales de los años anteriores para evaluar el progreso de la empresa a lo largo del tiempo. A partir de esta información, he identificado tendencias y patrones que permiten realizar una primera estimación de las ventas para el año 2025. Este enfoque busca prever el comportamiento futuro basándose en el rendimiento histórico.
     """)
+    st.header("Gráfico de Ventas Totales de 2015 a 2024")
+    # Crear el DataFrame ven_tot con la suma de ventas de 2015 a 2024
+    ven_tot = df.loc[:, '2015':'2024'].sum()
+    ven_tot = {'CODIGO ARTICULO': 0, 'CLI': 0, **ven_tot.to_dict()}
+    ven_tot = pd.DataFrame([ven_tot])
+    # Redondear los valores de ven_tot a 2 decimales
+    ven_tot = ven_tot.round(2)
+    # Graficar las ventas de 2015 a 2024
+    plt.figure(figsize=(10, 6))
+    plt.bar(ven_tot.columns[2:], ven_tot.iloc[0, 2:], color='skyblue')
+    plt.xlabel("Año")
+    plt.ylabel("Ventas Totales")
+    plt.title("Ventas Totales de 2015 a 2024")
+    plt.xticks(rotation=45)
+    # Mostrar el gráfico en Streamlit
+    st.pyplot(plt)
 
 # Página de Datos Procesados
 elif selection == 'Datos Procesados':
