@@ -23,7 +23,7 @@ A través de análisis y proyecciones, se anticipa el desempeño y las tendencia
 """)
 
 # Crear índice
-menu = ['Primeras Conlusiones', 'Control de Clientes', 'Control de Articulos', 'Resumen']
+menu = ['Primeras Conlusiones', 'Control de Clientes', 'Control de Articulos', 'Predicciones 2025']
 selection = st.sidebar.radio("Indice de Contenidos:", menu)
 
 # Página de Introducción
