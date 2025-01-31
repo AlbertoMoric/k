@@ -1,4 +1,6 @@
 import streamlit as st
+import pandas as pd
+
 
 # Título
 st.title("Kentu Ventas 2025")
