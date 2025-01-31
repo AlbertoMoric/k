@@ -17,7 +17,7 @@ selection = st.sidebar.radio("Indice de Contenidos:", menu)
 
 # Página de Introducción
 if selection == 'Primeras Conlusiones':
-    st.header("Introducción")
+    st.header("Ventas Totales por Año")
     st.write("""
     Este informe presenta una visión detallada sobre las proyecciones y análisis de ventas de la empresa Kentu para el año 2025. 
     Los datos y análisis mostrados permiten una visión clara de las tendencias que impactarán las ventas de los próximos años.
