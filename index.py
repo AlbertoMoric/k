@@ -174,6 +174,13 @@ elif selection == 'Predicciones 2025':
                             validation_data=(X_test_scaled, X_test[:, -1]), 
                             callbacks=[early_stopping])  # Añadir el callback de EarlyStopping
 
+     # Mostrar un mensaje de éxito después de entrenar el modelo
+    st.success('Modelo entrenado exitosamente')
+
+    # Evaluación del modelo
+    loss = model.evaluate(X_test_scaled, X_test[:, -1])
+    st.write(f'Pérdida en el conjunto de prueba: {loss}')
+
     # Predicción de ventas para 2025
     df['prediccion_2025'] = model.predict(scaler.transform(df[['2015', '2016', '2017', '2018', '2019', '2021', '2022', '2023', '2024']].values))
 
