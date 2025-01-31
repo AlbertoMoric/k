@@ -10,6 +10,7 @@ st.write("""
 Este informe presenta las predicciones de ventas de la empresa Kentu para el año 2025. 
 A través de análisis y proyecciones, se anticipa el desempeño y las tendencias del mercado que impactarán en los resultados de la compañía.
 """)
+st.write("""_______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________""")
 
 # Cargar el archivo CSV automáticamente
 file_path = 'prueba1.csv'  # Ruta del archivo CSV
