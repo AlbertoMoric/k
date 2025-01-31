@@ -148,8 +148,41 @@ elif selection == 'Control de Articulos':
     
 # Página de Resumen
 elif selection == 'Predicciones 2025':
-    st.header("Resumen")
-    st.write("""
-    En resumen, el informe presenta las proyecciones de ventas de Kentu para el año 2025 y una visión general de las tendencias del mercado. 
-    Se observa un crecimiento constante en las ventas de los últimos años, con algunas fluctuaciones que deben ser monitoreadas para una mejor toma de decisiones estratégicas.
-    """)
+    X = df_art[['2015', '2016', '2017', '2018', '2019', '2021', '2022', '2023', '2024']].values
+    X_train, X_test = train_test_split(X, test_size=0.2, random_state=42)
+    scaler = StandardScaler()
+    X_train_scaled = scaler.fit_transform(X_train)
+    X_test_scaled = scaler.transform(X_test)
+    
+    # Crear el modelo de red neuronal
+    model = Sequential()
+    model.add(Dense(64, input_dim=X_train_scaled.shape[1], activation='relu'))  # 64 neuronas en la capa oculta
+    model.add(Dense(32, activation='relu'))  # 32 neuronas
+    model.add(Dense(1))  # Capa de salida con una neurona (predicción)
+    
+    # Compilación y entrenamiento del modelo
+    model.compile(optimizer='adam', loss='mean_squared_error')
+    
+    # Definir EarlyStopping para detener el entrenamiento cuando no haya mejora en el modelo
+    early_stopping = EarlyStopping(monitor='val_loss',    # Se monitorea el loss de validación
+                                   patience=5,          # Número de épocas sin mejora
+                                   restore_best_weights=True)  # Restaura los mejores pesos cuando se detiene
+    
+    # Entrenamiento del modelo
+    history = model.fit(X_train_scaled, 
+                        X_train[:, -1],  # Usamos la última columna como target (ventas 2024)
+                        epochs=200, 
+                        batch_size=10, 
+                        validation_data=(X_test_scaled, X_test[:, -1]), 
+                        callbacks=[early_stopping])  # Añadir el callback de EarlyStopping
+    
+    # Evaluación del modelo
+    loss = model.evaluate(X_test_scaled, X_test[:, -1])
+    st.write(f'Pérdida en el conjunto de prueba: {loss}')
+    
+    # Predicción de ventas para 2025
+    df_art['prediccion_2025'] = model.predict(scaler.transform(df_art[['2015', '2016', '2017', '2018', '2019', '2021', '2022', '2023', '2024']].values))
+    
+    # Mostrar predicción en Streamlit
+    st.write("Predicción de ventas para el año 2025:")
+    st.dataframe(df_art[['CODIGO ARTICULO', 'prediccion_2025']])
