@@ -27,17 +27,10 @@ df = df.apply(pd.to_numeric, errors='coerce')
 df = df.abs()
 
 # Crear el DataFrame ven_tot con la suma de ventas de 2015 a 2024
-ven_tot = pd.DataFrame(columns=df.columns)
 ven_tot = df.loc[:, '2015':'2024'].sum()
 ven_tot = {'CODIGO ARTICULO': 0, 'CLI': 0, **ven_tot.to_dict()}
 ven_tot = pd.DataFrame([ven_tot])
 
-# Mostrar los resultados de la suma de ventas de 2015 a 2024
+# Mostrar solo las columnas de 2015 a 2024 en ven_tot
 st.write("Suma total de ventas de 2015 a 2024:")
-st.dataframe(ven_tot)
-
-# Mostrar datos procesados
-st.write("Datos procesados:")
-st.dataframe(df)
-
-
+st.dataframe(ven_tot.loc[:, '2015':'2024'])
