@@ -184,6 +184,8 @@ elif selection == 'Predicciones 2025':
     # Predicción de ventas para 2025
     df['prediccion_2025'] = model.predict(scaler.transform(df[['2015', '2016', '2017', '2018', '2019', '2021', '2022', '2023', '2024']].values))
     
-    # Mostrar predicción en Streamlit
-    st.write("Predicción de ventas para el año 2025:")
-    st.dataframe(df[['CODIGO ARTICULO','CLI','2021','2022','2023','2024', 'prediccion_2025']])
+    st.subheader("Datos con las predicciones añadidas")
+    st.dataframe(df)
+
+    # Mostrar un mensaje de éxito después de entrenar el modelo
+    st.success('Modelo entrenado y predicciones generadas')
