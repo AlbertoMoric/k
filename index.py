@@ -96,27 +96,45 @@ elif selection == 'Control de Clientes':
 
 # Página de Gráfico de Ventas
 elif selection == 'Control de Articulos':
-    st.header("Gráfico de Ventas Totales de 2015 a 2024")
+    # Análisis de compras por artículo
+df_art = df.groupby('CODIGO ARTICULO').sum()
+df_art = df_art.drop(columns=['2020'])  # Eliminar columna de 2020
+compras_2016_2019 = df_art[['2016', '2017', '2018', '2019']].sum(axis=1)
+compras_2021_2024 = df_art[['2021', '2022', '2023', '2024']].sum(axis=1)
 
-    # Crear el DataFrame ven_tot con la suma de ventas de 2015 a 2024
-    ven_tot = df.loc[:, '2015':'2024'].sum()
-    ven_tot = {'CODIGO ARTICULO': 0, 'CLI': 0, **ven_tot.to_dict()}
-    ven_tot = pd.DataFrame([ven_tot])
+# Crear DataFrame de compras por artículo
+df_compras_articulo = pd.DataFrame({
+    'compras_2016_2019': compras_2016_2019,
+    'compras_2021_2024': compras_2021_2024
+})
 
-    # Redondear los valores de ven_tot a 2 decimales
-    ven_tot = ven_tot.round(2)
+# Calcular la diferencia y comparar los periodos
+df_compras_articulo['diferencia'] = df_compras_articulo['compras_2021_2024'] - df_compras_articulo['compras_2016_2019']
+df_compras_articulo['comparacion'] = df_compras_articulo['diferencia'].apply(
+    lambda x: 'más en 2021-2024' if x > 0 else ('más en 2016-2019' if x < 0 else 'igual en ambos periodos')
+)
 
-    # Graficar las ventas de 2015 a 2024
-    plt.figure(figsize=(10, 6))
-    plt.bar(ven_tot.columns[2:], ven_tot.iloc[0, 2:], color='skyblue')
-    plt.xlabel("Año")
-    plt.ylabel("Ventas Totales")
-    plt.title("Ventas Totales de 2015 a 2024")
-    plt.xticks(rotation=45)
+# Filtrar artículos con más compras en cada periodo
+df_art_des = df_compras_articulo[df_compras_articulo['comparacion'] == 'más en 2016-2019']
+df_art_asc = df_compras_articulo[df_compras_articulo['comparacion'] == 'más en 2021-2024']
 
-    # Mostrar el gráfico en Streamlit
-    st.pyplot(plt)
+# Mostrar resultados en Streamlit
+st.write("Artículos con más compras en el periodo 2016-2019:")
+st.dataframe(df_art_des)
 
+st.write("Artículos con más compras en el periodo 2021-2024:")
+st.dataframe(df_art_asc)
+
+# Graficar la diferencia de compras entre los dos periodos
+plt.figure(figsize=(10, 6))
+plt.bar(df_compras_articulo.index, df_compras_articulo['diferencia'], color='lightcoral')
+plt.xlabel("Artículo")
+plt.ylabel("Diferencia en compras")
+plt.title("Diferencia de compras entre los periodos 2021-2024 y 2016-2019")
+plt.xticks(rotation=90)
+
+# Mostrar el gráfico en Streamlit
+st.pyplot(plt)
 # Página de Resumen
 elif selection == 'Predicciones 2025':
     st.header("Resumen")
