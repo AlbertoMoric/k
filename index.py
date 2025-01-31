@@ -144,6 +144,10 @@ elif selection == 'Predicciones 2025':
     scaler = StandardScaler()
     X_train_scaled = scaler.fit_transform(X_train)
     X_test_scaled = scaler.transform(X_test)
+
+    # Mostrar el DataFrame original en Streamlit
+    st.subheader("Datos originales")
+    st.dataframe(df)
         
     with st.spinner('Entrenando el modelo...'):
         time.sleep(2)  # Simula un pequeño retraso al inicio
