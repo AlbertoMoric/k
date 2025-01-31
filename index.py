@@ -82,17 +82,6 @@ elif selection == 'Control de Clientes':
     st.write("Clientes con más compras en el periodo 2021-2024:")
     st.dataframe(df_cli_asc)
     
-    # Graficar la diferencia de compras entre los dos periodos
-    plt.figure(figsize=(10, 6))
-    plt.bar(df_compras.index, df_compras['diferencia'], color='lightcoral')
-    plt.xlabel("Cliente")
-    plt.ylabel("Diferencia en compras")
-    plt.title("Diferencia de compras entre los periodos 2021-2024 y 2016-2019")
-    plt.xticks(rotation=90)
-    
-    # Mostrar el gráfico en Streamlit
-    st.pyplot(plt)
-
 # Página de Gráfico de Ventas
 elif selection == 'Gráfico de Ventas':
     st.header("Gráfico de Ventas Totales de 2015 a 2024")
