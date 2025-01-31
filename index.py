@@ -16,7 +16,7 @@ menu = ['Primeras Conlusiones', 'Control de Clientes', 'Control de Articulos', '
 selection = st.sidebar.radio("Indice de Contenidos:", menu)
 
 # Página de Introducción
-if selection == 'Primeras Conlusione':
+if selection == 'Primeras Conlusiones':
     st.header("Introducción")
     st.write("""
     Este informe presenta una visión detallada sobre las proyecciones y análisis de ventas de la empresa Kentu para el año 2025. 
