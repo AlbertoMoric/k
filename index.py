@@ -49,3 +49,4 @@ plt.xticks(rotation=45)
 
 # Mostrar el gráfico en Streamlit
 st.pyplot(plt)
+st.write("""_""")
