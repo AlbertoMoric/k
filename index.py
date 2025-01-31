@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import matplotlib.pyplot as plt
 
 # Título
 st.title("Kentu Ventas 2025")
@@ -34,6 +35,17 @@ ven_tot = pd.DataFrame([ven_tot])
 # Redondear los valores de ven_tot a 2 decimales
 ven_tot = ven_tot.round(2)
 
-# Mostrar solo las columnas de 2015 a 2024 en ven_tot
+# Mostrar los resultados de la suma de ventas de 2015 a 2024
 st.write("Suma total de ventas de 2015 a 2024:")
 st.dataframe(ven_tot.loc[:, '2015':'2024'])
+
+# Graficar las ventas de 2015 a 2024
+plt.figure(figsize=(10, 6))
+plt.bar(ven_tot.columns[2:], ven_tot.iloc[0, 2:], color='skyblue')
+plt.xlabel("Año")
+plt.ylabel("Ventas Totales")
+plt.title("Ventas Totales de 2015 a 2024")
+plt.xticks(rotation=45)
+
+# Mostrar el gráfico en Streamlit
+st.pyplot(plt)
