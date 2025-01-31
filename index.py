@@ -2,6 +2,17 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
+file_path = 'prueba1.csv'  # Ruta del archivo CSV
+df = pd.read_csv(file_path)
+df['CODIGO ARTICULO'] = df['CODIGO ARTICULO'].fillna(method='ffill')
+df['CLI'] = df['CLI'].fillna(0)
+df = df.fillna(0)
+df['CODIGO ARTICULO'] = df['CODIGO ARTICULO'].str.replace('ARTICULO', '', regex=False)
+df = df.drop(df.index[-1])
+df = df.replace({',': '.'}, regex=True)
+df = df.apply(pd.to_numeric, errors='coerce')
+df = df.abs()
+
 # Título
 st.title("Kentu Ventas 2025")
 
@@ -19,29 +30,12 @@ selection = st.sidebar.radio("Indice de Contenidos:", menu)
 if selection == 'Primeras Conlusiones':
     st.header("Ventas Totales por Año")
     st.write("""
-   
-En el apartado "Primeras Conclusiones", he analizado las ventas totales de los años anteriores para evaluar el progreso de la empresa a lo largo del tiempo. A partir de esta información, he identificado tendencias y patrones que permiten realizar una primera estimación de las ventas para el año 2025. Este enfoque busca prever el comportamiento futuro basándose en el rendimiento histórico.
+    En el apartado "Primeras Conclusiones", he analizado las ventas totales de los años anteriores para evaluar el progreso de la empresa a lo largo del tiempo. A partir de esta información, he identificado tendencias y patrones que permiten realizar una primera estimación de las ventas para el año 2025. Este enfoque busca prever el comportamiento futuro basándose en el rendimiento histórico.
     """)
 
 # Página de Datos Procesados
 elif selection == 'Datos Procesados':
     st.header("Datos Procesados")
-    
-    # Cargar el archivo CSV automáticamente
-    file_path = 'prueba1.csv'  # Ruta del archivo CSV
-
-    # Asegúrate de que el archivo esté en la misma carpeta que el script de Streamlit
-    df = pd.read_csv(file_path)
-
-    # Procesamiento de datos
-    df['CODIGO ARTICULO'] = df['CODIGO ARTICULO'].fillna(method='ffill')
-    df['CLI'] = df['CLI'].fillna(0)
-    df = df.fillna(0)
-    df['CODIGO ARTICULO'] = df['CODIGO ARTICULO'].str.replace('ARTICULO', '', regex=False)
-    df = df.drop(df.index[-1])
-    df = df.replace({',': '.'}, regex=True)
-    df = df.apply(pd.to_numeric, errors='coerce')
-    df = df.abs()
 
     # Mostrar datos procesados
     st.write("Datos procesados:")
