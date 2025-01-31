@@ -125,16 +125,6 @@ elif selection == 'Control de Articulos':
     st.write("Artículos con más compras en el periodo 2021-2024:")
     st.dataframe(df_art_asc)
     
-    # Graficar la diferencia de compras entre los dos periodos
-    plt.figure(figsize=(10, 6))
-    plt.bar(df_compras_articulo.index, df_compras_articulo['diferencia'], color='lightcoral')
-    plt.xlabel("Artículo")
-    plt.ylabel("Diferencia en compras")
-    plt.title("Diferencia de compras entre los periodos 2021-2024 y 2016-2019")
-    plt.xticks(rotation=90)
-    
-    # Mostrar el gráfico en Streamlit
-    st.pyplot(plt)
 # Página de Resumen
 elif selection == 'Predicciones 2025':
     st.header("Resumen")
