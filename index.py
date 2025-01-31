@@ -4,11 +4,6 @@ import matplotlib.pyplot as plt
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
-from tensorflow.keras.callbacks import EarlyStopping
 
 file_path = 'prueba1.csv'  # Ruta del archivo CSV
 df = pd.read_csv(file_path)
@@ -20,7 +15,6 @@ df = df.drop(df.index[-1])
 df = df.replace({',': '.'}, regex=True)
 df = df.apply(pd.to_numeric, errors='coerce')
 df = df.abs()
-
 
 # Título
 st.title("Kentu Ventas 2025")
@@ -138,6 +132,11 @@ elif selection == 'Control de Articulos':
 
 # Página de Resumen
 elif selection == 'Predicciones 2025':
+    from sklearn.model_selection import train_test_split
+    from sklearn.preprocessing import StandardScaler
+    from tensorflow.keras.models import Sequential
+    from tensorflow.keras.layers import Dense
+    from tensorflow.keras.callbacks import EarlyStopping
 
     X = df[['2015', '2016', '2017', '2018', '2019', '2021', '2022', '2023', '2024']].values
     X_train, X_test = train_test_split(X, test_size=0.2, random_state=42)
