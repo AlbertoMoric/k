@@ -29,7 +29,9 @@ st.write("""
 Este informe presenta las predicciones de ventas de la empresa Kentu para el año 2025. 
 A través de análisis y proyecciones, se anticipa el desempeño y las tendencias del mercado que impactarán en los resultados de la compañía.
 """)
-
+st.write("""
+______________________________________________________________________________________________________________________________________________
+""")
 # Crear índice
 menu = ['Primeras Conlusiones', 'Control de Clientes', 'Control de Articulos', 'Predicciones 2025']
 selection = st.sidebar.radio("Indice de Contenidos:", menu)
