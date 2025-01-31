@@ -52,9 +52,46 @@ if selection == 'Primeras Conlusiones':
 elif selection == 'Control de Clientes':
     st.header("Control de Clientes")
 
-    # Mostrar datos procesados
-    st.write("Datos procesados:")
-    st.dataframe(df)
+# Análisis de compras de los diferentes periodos
+df_cli = df.groupby('CLI').sum()
+df_cli = df_cli.drop(columns=['2020'])  # Eliminar columna de 2020
+compras_2016_2019 = df_cli[['2016', '2017', '2018', '2019']].sum(axis=1)
+compras_2021_2024 = df_cli[['2021', '2022', '2023', '2024']].sum(axis=1)
+
+# Crear DataFrame de compras por periodo
+df_compras = pd.DataFrame({
+    'compras_2016_2019': compras_2016_2019,
+    'compras_2021_2024': compras_2021_2024
+})
+
+# Calcular la diferencia y comparar los periodos
+df_compras['diferencia'] = df_compras['compras_2021_2024'] - df_compras['compras_2016_2019']
+df_compras['comparacion'] = df_compras['diferencia'].apply(
+    lambda x: 'más en 2021-2024' if x > 0 else ('más en 2016-2019' if x < 0 else 'igual en ambos periodos')
+)
+
+# Filtrar clientes con más compras en cada periodo
+df_cli_des = df_compras[df_compras['comparacion'] == 'más en 2016-2019']
+df_cli_asc = df_compras[df_compras['comparacion'] == 'más en 2021-2024']
+
+# Mostrar resultados en Streamlit
+st.write("Análisis de compras por cliente:")
+st.write("Clientes con más compras en el periodo 2016-2019:")
+st.dataframe(df_cli_des)
+
+st.write("Clientes con más compras en el periodo 2021-2024:")
+st.dataframe(df_cli_asc)
+
+# Graficar la diferencia de compras entre los dos periodos
+plt.figure(figsize=(10, 6))
+plt.bar(df_compras.index, df_compras['diferencia'], color='lightcoral')
+plt.xlabel("Cliente")
+plt.ylabel("Diferencia en compras")
+plt.title("Diferencia de compras entre los periodos 2021-2024 y 2016-2019")
+plt.xticks(rotation=90)
+
+# Mostrar el gráfico en Streamlit
+st.pyplot(plt)
 
 # Página de Gráfico de Ventas
 elif selection == 'Gráfico de Ventas':
