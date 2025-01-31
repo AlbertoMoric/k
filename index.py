@@ -106,7 +106,7 @@ elif selection == 'Gráfico de Ventas':
     st.pyplot(plt)
 
 # Página de Resumen
-elif selection == 'Resumen':
+elif selection == 'Predicciones 2025':
     st.header("Resumen")
     st.write("""
     En resumen, el informe presenta las proyecciones de ventas de Kentu para el año 2025 y una visión general de las tendencias del mercado. 
