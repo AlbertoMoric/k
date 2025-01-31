@@ -21,6 +21,33 @@ df = df.replace({',': '.'}, regex=True)
 df = df.apply(pd.to_numeric, errors='coerce')
 df = df.abs()
 
+X = df[['2015', '2016', '2017', '2018', '2019', '2021', '2022', '2023', '2024']].values
+X_train, X_test = train_test_split(X, test_size=0.2, random_state=42)
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+    
+# Crear el modelo de red neuronal
+model = Sequential()
+model.add(Dense(64, input_dim=X_train_scaled.shape[1], activation='relu'))  # 64 neuronas en la capa oculta
+model.add(Dense(32, activation='relu'))  # 32 neuronas
+model.add(Dense(1))  # Capa de salida con una neurona (predicción)
+    
+# Compilación y entrenamiento del modelo
+model.compile(optimizer='adam', loss='mean_squared_error')
+    
+# Definir EarlyStopping para detener el entrenamiento cuando no haya mejora en el modelo
+early_stopping = EarlyStopping(monitor='val_loss',    # Se monitorea el loss de validación
+                                patience=5,          # Número de épocas sin mejora
+                                restore_best_weights=True)  # Restaura los mejores pesos cuando se detiene
+    
+# Entrenamiento del modelo
+history = model.fit(X_train_scaled, 
+                    X_train[:, -1],  # Usamos la última columna como target (ventas 2024)
+                    epochs=200, 
+                    batch_size=10, 
+                    validation_data=(X_test_scaled, X_test[:, -1]), 
+                    callbacks=[early_stopping])  # Añadir el callback de EarlyStopping
 # Título
 st.title("Kentu Ventas 2025")
 
@@ -150,33 +177,6 @@ elif selection == 'Control de Articulos':
     
 # Página de Resumen
 elif selection == 'Predicciones 2025':
-    X = df[['2015', '2016', '2017', '2018', '2019', '2021', '2022', '2023', '2024']].values
-    X_train, X_test = train_test_split(X, test_size=0.2, random_state=42)
-    scaler = StandardScaler()
-    X_train_scaled = scaler.fit_transform(X_train)
-    X_test_scaled = scaler.transform(X_test)
-    
-    # Crear el modelo de red neuronal
-    model = Sequential()
-    model.add(Dense(64, input_dim=X_train_scaled.shape[1], activation='relu'))  # 64 neuronas en la capa oculta
-    model.add(Dense(32, activation='relu'))  # 32 neuronas
-    model.add(Dense(1))  # Capa de salida con una neurona (predicción)
-    
-    # Compilación y entrenamiento del modelo
-    model.compile(optimizer='adam', loss='mean_squared_error')
-    
-    # Definir EarlyStopping para detener el entrenamiento cuando no haya mejora en el modelo
-    early_stopping = EarlyStopping(monitor='val_loss',    # Se monitorea el loss de validación
-                                   patience=5,          # Número de épocas sin mejora
-                                   restore_best_weights=True)  # Restaura los mejores pesos cuando se detiene
-    
-    # Entrenamiento del modelo
-    history = model.fit(X_train_scaled, 
-                        X_train[:, -1],  # Usamos la última columna como target (ventas 2024)
-                        epochs=200, 
-                        batch_size=10, 
-                        validation_data=(X_test_scaled, X_test[:, -1]), 
-                        callbacks=[early_stopping])  # Añadir el callback de EarlyStopping
     
     # Evaluación del modelo
     loss = model.evaluate(X_test_scaled, X_test[:, -1])
@@ -184,8 +184,7 @@ elif selection == 'Predicciones 2025':
     
     # Predicción de ventas para 2025
     df['prediccion_2025'] = model.predict(scaler.transform(df[['2015', '2016', '2017', '2018', '2019', '2021', '2022', '2023', '2024']].values))
-    df['prediccion_2025'] = df['prediccion_2025'].round(2)
-
+    
     # Mostrar predicción en Streamlit
     st.write("Predicción de ventas para el año 2025:")
     st.dataframe(df[['CODIGO ARTICULO','CLI','2021','2022','2023','2024', 'prediccion_2025']])
