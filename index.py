@@ -150,9 +150,7 @@ elif selection == 'Control de Articulos':
     
 # Página de Resumen
 elif selection == 'Predicciones 2025':
-    df_art = df.groupby('CODIGO ARTICULO').sum()
-    df_art = df_art.drop(columns=['2020'])  # Eliminar columna de 2020
-    X = df_art[['2015', '2016', '2017', '2018', '2019', '2021', '2022', '2023', '2024']].values
+    X = df[['2015', '2016', '2017', '2018', '2019', '2021', '2022', '2023', '2024']].values
     X_train, X_test = train_test_split(X, test_size=0.2, random_state=42)
     scaler = StandardScaler()
     X_train_scaled = scaler.fit_transform(X_train)
@@ -185,8 +183,8 @@ elif selection == 'Predicciones 2025':
     st.write(f'Pérdida en el conjunto de prueba: {loss}')
     
     # Predicción de ventas para 2025
-    df_art['prediccion_2025'] = model.predict(scaler.transform(df_art[['2015', '2016', '2017', '2018', '2019', '2021', '2022', '2023', '2024']].values))
+    df['prediccion_2025'] = model.predict(scaler.transform(df[['2015', '2016', '2017', '2018', '2019', '2021', '2022', '2023', '2024']].values))
     
     # Mostrar predicción en Streamlit
     st.write("Predicción de ventas para el año 2025:")
-    st.dataframe(df_art[['CODIGO ARTICULO', 'prediccion_2025']])
+    st.dataframe(df[['CODIGO ARTICULO', 'prediccion_2025']])
